@@ -19,6 +19,15 @@ library(sp) # A package for spatial data
 ```{r}
 # Download the data for a focal species.
 Artocarpus_altilis <- BIEN_occurrence_species(species = "Artocarpus altilis")
+
+# Download the data for California Blackberry (Rubus ursinus).
+Rubus_ursinus <- BIEN_occurrence_species(species = "Rubus ursinus")
+
+# Sugarcane (Saccharum spontaneum).
+Saccharum_spontaneum <- BIEN_occurrence_species(species = "Saccharum spontaneum")
+
+# California Redwood (Sequoia sempervirens)
+Sequoia_sempervirens <- BIEN_occurrence_species(species = "Sequoia sempervirens")
 ```
 
 It looks like nothing happened, but you actually have created a data frame called Artocarpus_altilis, full of character data and numeric data. Use the commands below. The first allows you to view the so called meta-data (data about the data; how many observations, for example). The second command looks at the first six entries in the data frame. The third looks at the last six entries in the data frame.
@@ -27,17 +36,48 @@ It looks like nothing happened, but you actually have created a data frame calle
 str(Artocarpus_altilis)
 head(Artocarpus_altilis)
 tail(Artocarpus_altilis)
+
+# blackberry
+str(Rubus_ursinus)
+head(Rubus_ursinus)
+
+# sugarcane
+str(Saccharum_spontaneum)
+head(Saccharum_spontaneum)
 ```
 
 As you know from looking at the browser, you can look up a rangemap. 
 ```{r}
 breadfruit_rangemap <- BIEN_ranges_load_species("Artocarpus altilis")
+
+# CA blackberry
+Rubus_ursinus_rangemap <- BIEN_ranges_load_species("Rubus_ursinus")
+
+# sugarcane
+Saccharum_spontaneum_rangemap <- BIEN_ranges_load_species("Saccharum_spontaneum")
+
+# redwood 
+Sequoia_sempervirens_rangemap <- BIEN_ranges_load_species("Sequoia_sempervirens")
+
 ```
 
 ```{r}
 # Map the range of breadfruit
 map('world', fill=T, col="grey", bg = "light blue", xlim=c(-180,20),ylim=c(-60,80))
 plot(breadfruit_rangemap, col="green", add=T)
+
+# CA blackberry
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,20),ylim=c(-60,80))
+plot(Rubus_ursinus_rangemap, col="green", add=T)
+
+# redwood 
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,20),ylim=c(-60,80))
+plot(Sequoia_sempervirens_rangemap, col="green", add=T)
+
+# sugarcane 
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,20),ylim=c(-60,80))
+plot(Saccharum_spontaneum_rangemap, col="green", add=T)
+# NOTE: the range map doesnt come up/appears on the map. In my data (listed in "Enviroment" on the right, I see a listing for "Saccharum_spontaneum_rangemap" - so I know it exists (also it runs without error). It just seems that the range map may not exist in the dataset/package or that it wont load - I took about an hour and a half to double check that variable names, quotes, etc. matched up, so I dont think its that. And because the "BIEN_range_get_species" function worked for the first two species, I would think that the error is not in that part of the interface.)
 ```
 
 ```{r}
@@ -45,6 +85,22 @@ plot(breadfruit_rangemap, col="green", add=T)
 map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
 plot(breadfruit_rangemap, col="green", add=T)
 points(cbind(Artocarpus_altilis$longitude, Artocarpus_altilis$latitude), col="blue", pch=20, cex=1)
+
+# blackberry
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Rubus_ursinus_rangemap, col="green", add=T)
+points(cbind(Rubus_ursinus$longitude, Rubus_ursinus$latitude), col="blue", pch=20, cex=1)
+
+# redwood
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Sequoia_sempervirens_rangemap, col="green", add=T)
+points(cbind(Sequoia_sempervirens$longitude, Sequoia_sempervirens$latitude), col="blue", pch=20, cex=1)
+
+# sugarcane 
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Saccharum_spontaneum_rangemap, col="green", add=T)
+points(cbind(Saccharum_spontaneum$longitude, Saccharum_spontaneum$latitude), col="blue", pch=20, cex=1)
+# NOTE: for sugarcane the range map doesnt come up/appears on the map. In my data (listed in "Enviroment" on the right) I see a listing for "Saccharum_spontaneum_rangemap" - so I know it exists/has been created (also it runs without error). It just seems that the range map may not exist in the dataset/package or that it wont load. Since the "BIEN_range_get_species" function worked for the first two species, I would think that the error is not in that part of the interface.
 ```
 
 By default, RBIEN commands for species occurrence only downloads limited information, but those defaults can be changed to get more expansive data, including:
@@ -71,6 +127,19 @@ points(cbind(Artocarpus_altilis_full$longitude, Artocarpus_altilis_full$latitude
 
 # Plot the points from the default query in blue
 points(cbind(Artocarpus_altilis$longitude, Artocarpus_altilis$latitude), col="blue", pch=20, cex=1) 
+
+# SUGARCANE: SO much more data
+Saccharum_spontaneum_full <- BIEN_occurrence_species(species = "Saccharum spontaneum",cultivated = T,only.new.world = F,all.taxonomy = T,native.status = T,observation.type = T,political.boundaries = T)
+
+str(Saccharum_spontaneum_full)
+
+map('world', fill=T , col="grey", bg="light blue")
+
+#Plot the points from the full query in red
+points(cbind(Saccharum_spontaneum_full$longitude, Saccharum_spontaneum_full$latitude), col="red", pch=20, cex=1)
+
+# Plot the points from the default query in blue
+points(cbind(Saccharum_spontaneum$longitude, Saccharum_spontaneum$latitude), col="blue", pch=20, cex=1) 
 ```
 
 ### Trait Data and linking this to Biostatistics
@@ -84,6 +153,11 @@ BIEN_trait_list()
 breadfruit_traits <- BIEN_trait_genus(genus = "Artocarpus")
 str(breadfruit_traits)
 breadfruit_traits
+
+# appple genus traits
+apple_traits <- BIEN_trait_genus(genus = "Malus")
+str(apple_traits)
+apple_traits
 ```
 
 ```{r}
@@ -91,11 +165,36 @@ Breadfruit_DBH <- BIEN_trait_traitbygenus(trait = "diameter at breast height (1.
 head(Breadfruit_DBH)
 tail(Breadfruit_DBH)
 str(Breadfruit_DBH)
+
+# APPLE (diameter at breast height)
+apple_DBH <- BIEN_trait_traitbygenus(trait = "diameter at breast height (1.3 m)", genus = "Malus")
+head(apple_DBH) # start
+tail(apple_DBH) # end
+str(apple_DBH)
+
+# APPLE (flower color)
+apple_flower_color <- BIEN_trait_traitbygenus(trait = "flower color", genus = "Malus")
+head(apple_flower_color) # start
+tail(apple_flower_color) # end
+str(apple_flower_color)
+
+# APPLE (whole plant height)
+apple_WPH <- BIEN_trait_traitbygenus(trait = "whole plant height", genus = "Malus")
+head(apple_WPH) # start
+tail(apple_WPH) # end
+str(apple_WPH)
 ```
 
 ```{r}
 # List variable names from Breadfruit_DBH data frame
 names(Breadfruit_DBH)
+
+# for apple_DBH
+names(apple_DBH)
+
+# for whole plant height of Malus
+names(apple_WPH)
+
 ```
 
 ```{r}
@@ -105,19 +204,54 @@ Breadfruit_DBH_small = as.data.frame(Breadfruit_DBH_small)
 class(Breadfruit_DBH_small)
 head(Breadfruit_DBH_small)
 class(Breadfruit_DBH_small$trait_value)
-DBH = as.numeric(Breadfruit_DBH_small$trait_value)
+DBH = as.numeric(Breadfruit_DBH_small$trait_value) 
 class(DBH)
+
+# APPPLE
+apple_DBH_small = apple_DBH[c(1:5)] # only variables 1-5
+apple_DBH_small
+apple_DBH_small = as.data.frame(apple_DBH_small)
+class(apple_DBH_small)
+head(apple_DBH_small)
+class(apple_DBH_small$trait_value)
+aDBH = as.numeric(apple_DBH_small$trait_value)
+class(aDBH) # numeric
+
+# APPPLE
+apple_WPH_small = apple_WPH[c(1:5)] # only variables 1-5
+apple_WPH_small
+apple_WPH_small = as.data.frame(apple_WPH_small)
+class(apple_WPH_small)
+head(apple_WPH_small)
+class(apple_WPH_small$trait_value)
+aWPH = as.numeric(apple_WPH_small$trait_value)
+class(aWPH) # numeric
+
 ```
 
 Note that a library is being loaded below, and without it the boxplots will not be generated. This should be a package installed by default when R is installed or updated, but if it's not then you will need to install it.
 
 ```{r}
+# DBH of BREADFRUIT 
 library(lattice)
 head(Breadfruit_DBH_small)
 boxplot(DBH~scrubbed_species_binomial, data=Breadfruit_DBH_small)
+
+# DBH of Apples
+library(lattice)
+head(apple_DBH_small)
+boxplot(aDBH~scrubbed_species_binomial, data=apple_DBH_small)
+
+# spread of whole plant height of Apples
+library(lattice)
+head(apple_WPH_small)
+boxplot(aWPH~scrubbed_species_binomial, data=apple_WPH_small)
+
+
 ```
   	
 ```{r}
+# whole plant height for BREADFRUIT
 Breadfruit_WPH <- BIEN_trait_traitbygenus(trait = "whole plant height", genus = "Artocarpus")
 str(Breadfruit_WPH)
 Breadfruit_WPH
@@ -143,7 +277,7 @@ class(WPH)
 ```{r}
 mean(DBH, data=Breadfruit_DBH_small)
 mean(WPH, data=Breadfruit_WPH_small)
-```
+``` 
 
 
 Downloading for just one species: 
@@ -153,6 +287,19 @@ Anitidus_DBH <- BIEN_trait_traitbyspecies(trait = "diameter at breast height (1.
 head(Anitidus_DBH)
 tail(Anitidus_DBH)
 str(Anitidus_DBH)
+
+# Southern Crabapple (Malus angustifolia) - 169 obs 
+Mangustifolia_WPH <- BIEN_trait_traitbyspecies(trait = "whole plant height", species = "Malus angustifolia")
+head(Mangustifolia_WPH)
+tail(Mangustifolia_WPH)
+str(Mangustifolia_WPH)
+
+# Sweet Crabapple (Malus fusca) - 202 obs asiatica
+Mcoronaria_WPH <- BIEN_trait_traitbyspecies(trait = "whole plant height", species = "Malus coronaria")
+head(Mcoronaria_WPH)
+tail(Mcoronaria_WPH)
+str(Mcoronaria_WPH)
+Mcoronaria_WPH
 ```
 
 
@@ -165,12 +312,36 @@ head(Anitidus_DBH_small)
 class(Anitidus_DBH_small$trait_value)
 DBHa = as.numeric(Anitidus_DBH_small$trait_value)
 class(DBHa)
+
+# angustifolia (for whole plant width) - 
+Mangustifolia_WPH_small = Mangustifolia_WPH[c(1:5)]
+Mangustifolia_WPH_small
+Mangustifolia_WPH_small = as.data.frame(Mangustifolia_WPH_small)
+class(Mangustifolia_WPH_small)
+head(Mangustifolia_WPH_small)
+class(Mangustifolia_WPH_small$trait_value)
+WPHangustifolia = as.numeric(Mangustifolia_WPH_small$trait_value)
+class(WPHangustifolia)
+
+# coronaria
+Mcoronaria_WPH_small = Mcoronaria_WPH[c(1:5)]
+Mcoronaria_WPH_small
+Mcoronaria_WPH_small = as.data.frame(Mcoronaria_WPH_small)
+class(Mcoronaria_WPH_small)
+head(Mcoronaria_WPH_small)
+class(Mcoronaria_WPH_small$trait_value)
+WPHcoronaria = as.numeric(Mcoronaria_WPH_small$trait_value)
+class(WPHcoronaria)
 ```
 
 
+
+
+
 ```{r}
-boxplot(DBHn)
-hist(DBHn)
+boxplot(DBHa)
+hist(DBHa)
+
 ```
 
 
@@ -200,31 +371,73 @@ class(DBHh)
 
 ```{r}
 library(dplyr)
-Artocarpus2<-rbind(Anitidus_DBH_small, Ahirsutus_DBH_small)
+Artocarpus2<-rbind(Mcoronaria_DBH_small, Ahirsutus_DBH_small)
 head(Artocarpus2)
 tail(Artocarpus2)
 class(Artocarpus2$trait_value)
 DBHboth = as.numeric(Artocarpus2$trait_value)
 class(DBHboth)
+
+# putting data togetehr/pooling (for apple)
+library(dplyr)
+Malus2<-rbind(Mcoronaria_WPH_small, Mangustifolia_WPH_small)
+head(Malus2) # shows coronaria @ start
+tail(Malus2) # shows agustifolia @ end
+class(Malus2$trait_value)
+WPHbothMalus = as.numeric(Malus2$trait_value)
+class(WPHbothMalus)
 ```
 
 ```{r}
-boxplot(DBHboth)
-hist(DBHboth)
+#boxplot(DBHboth)
+#hist(DBHboth)
+
+# ASSIGNEMTN: VISUALIZATIONS OF DATA: histograms of each species and combined 
+# 2 species from Malus: angustifolia and coronaria
+# for whole plant height (WPH)
+
+# angustafolia frequency data (boxplot and histogram)
+boxplot(WPHangustifolia)
+hist(WPHangustifolia)
+
+# coronaria frequency data (boxplot and histogram)
+boxplot(WPHcoronaria)
+hist(WPHcoronaria)
+
+# ** x axis to represnt WPH measure
+
+# visual rep of compiled data for 2 species for the DBH
+boxplot(WPHbothMalus)
+hist(WPHbothMalus)
 ```
 
 ```{r}
 ArtocarpusBoth<-cbind(Artocarpus2, DBHboth)
 head(ArtocarpusBoth)
 tail(ArtocarpusBoth)
+
+# puting data side by side/separate (Malus)
+MalusBoth<-cbind(Malus2, WPHbothMalus)
+head(MalusBoth)
+tail(MalusBoth)
 ```
 
 
 
 ```{r}
 boxplot(DBHboth~scrubbed_species_binomial, data=ArtocarpusBoth)
+
+# compare WPH data of each species (Malus)
+boxplot(WPHbothMalus~scrubbed_species_binomial, data=MalusBoth)
+
 ```
 
+```{r}
+
+# plotting plant height and elevation 
+plot(x=heights$Midparent, y=heights$Height)
+
+```
 
 Below there is another package being installed into the library and then loaded from the library to be active in the R software. This allows summarizing within species (rather than the whole genus), generating standard functions such as means and standard deviations (sd). The online resource Quick-R can be helpful if you want a bit more support in generating summary statistics, especially within sub-groups. 
 
@@ -235,6 +448,10 @@ install.packages("doBy")
 library(doBy)
 summaryBy(DBH~scrubbed_species_binomial, data=Breadfruit_DBH_small, FUN=c(mean, sd))
 summaryBy(WPH~scrubbed_species_binomial, data=Breadfruit_WPH_small, FUN=c(mean, sd))
+
+# mean and sd WPH by species for Manus data
+library(doBy)
+summaryBy(aWPH~scrubbed_species_binomial, data=apple_WPH_small, FUN=c(mean, sd)) 
 ```
 
 ```{r}
@@ -243,6 +460,9 @@ summaryBy(WPH~scrubbed_species_binomial, data=Breadfruit_WPH_small, FUN=c(mean, 
 
 ```{r}
 (unique(Breadfruit_WPH_small$scrubbed_species_binomial))
+
+# species list for manus WPH data
+(unique(apple_WPH_small$scrubbed_species_binomial))
 ```
 
 ## Exercises for completing the portfolio 
@@ -269,6 +489,96 @@ choose two species in the genus Agave (used for fiber, tequila; see Wikipedia)
 
 # Population Mean Between Two Matched Samples
 # http://www.r-tutor.com/elementary-statistics/inference-about-two-populations/population-mean-between-two-matched-samples
+
+```{r}
+# Assigment Code
+
+
+# MAPS
+
+# blackberry
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Rubus_ursinus_rangemap, col="green", add=T)
+points(cbind(Rubus_ursinus$longitude, Rubus_ursinus$latitude), col="blue", pch=20, cex=1)
+
+# redwood
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Sequoia_sempervirens_rangemap, col="green", add=T)
+points(cbind(Sequoia_sempervirens$longitude, Sequoia_sempervirens$latitude), col="blue", pch=20, cex=1)
+
+# sugarcane 
+map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 80))
+plot(Saccharum_spontaneum_rangemap, col="green", add=T)
+points(cbind(Saccharum_spontaneum$longitude, Saccharum_spontaneum$latitude), col="blue", pch=20, cex=1)
+# NOTE: for sugarcane the range map doesnt come up/appears on the map. In my data (listed in "Enviroment" on the right) I see a listing for "Saccharum_spontaneum_rangemap" - so I know it exists/has been created (also it runs without error). It just seems that the range map may not exist in the dataset/package or that it wont load. Since the "BIEN_range_get_species" function worked for the first two species, I would think that the error is not in that part of the interface.
+
+# ----------------
+# DATA COMPARISON
+
+# histograms and boxplots of each species and combined 
+# 2 species from Malus: angustifolia and coronaria
+# for whole plant height (WPH)
+
+# angustafolia frequency data (boxplot and histogram)
+boxplot(WPHangustifolia) # same plot that is on the comparison boxplot
+hist(WPHangustifolia)
+
+# coronaria frequency data (boxplot and histogram)
+boxplot(WPHcoronaria) # same plot that is on the comparison boxplot
+hist(WPHcoronaria)
+
+# visual rep of compiled (cumulative) data for 2 species for the DBH
+boxplot(WPHbothMalus)
+hist(WPHbothMalus)
+
+# ----------------
+
+# box plots for latitude (in 2 selected species)
+boxplot(latitude_angustifolia)
+boxplot(latitude_coronaria)
+
+# ----------------
+
+# compare WPH data of each species (Malus)
+boxplot(WPHbothMalus~scrubbed_species_binomial, data=MalusBoth)
+
+# ----------------
+
+# Scatter plots of latitude vs height in coronaria and angustiolia species
+# looks for 1) trend between variables and 2) compariosn of trend between 2 species
+
+# coronaria latitudes vs height
+latitude_coronaria = as.numeric(Mcoronaria_WPH$latitude)
+WPH_coronaria = as.numeric(Mcoronaria_WPH$trait_value)
+# scatter plot (x axis: height // y axis: latitude)
+plot(WPH_coronaria, latitude_coronaria)
+
+# plots for latitude and height - coronaria
+#boxplot(latitude_coronaria)
+#boxplot(WPH_coronaria)
+
+# angustifolia latitudes vs height
+latitude_angustifolia = as.numeric(Mangustifolia_WPH$latitude)
+WPH_angustifolia = as.numeric(Mangustifolia_WPH$trait_value)
+# scatter plot (x axis: height // y axis: latitude)
+plot(WPH_angustifolia, latitude_angustifolia)
+
+# ----------------
+
+# mean and sd WPH by species for the genus Manus (comes out as a table)
+library(doBy)
+summaryBy(aWPH~scrubbed_species_binomial, data=apple_WPH_small, FUN=c(mean, sd)) 
+
+
+
+# things that I would like to have been able to do (but didnt have knowledge to):
+# - put both scatterplots on one graph
+# - better label my graphs 
+# - color data points on scatterlots
+# - format axis labels 
+```
+
+
 
 ```{r}
 # Population Mean Between Two Independent Samples
@@ -317,6 +627,20 @@ The rest of the code shows how to get county lists.
 OrangeCal_list<-BIEN_list_county(country = "United States", state="California", county="Orange")
 head(OrangeCal_list)
 tail(OrangeCal_list)
+
+# my 3 counties
+MendocinoCal_list<-BIEN_list_county(country = "United States", state="California", county="Mendocino")
+head(MendocinoCal_list)
+tail(MendocinoCal_list)
+
+KaneUta_list<-BIEN_list_county(country = "United States", state="Utah", county="Kane") # part of which in Zion 
+head(KaneUta_list)
+tail(KaneUta_list)
+
+NorthSlopeAla_list<-BIEN_list_county(country = "United States", state="Alaska", county="North Slope Borough")
+head(NorthSlopeAla_list)
+tail(NorthSlopeAla_list)
+
 ```
 
 
