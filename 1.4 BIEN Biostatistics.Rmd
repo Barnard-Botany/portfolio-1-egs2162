@@ -54,7 +54,7 @@ breadfruit_rangemap <- BIEN_ranges_load_species("Artocarpus altilis")
 Rubus_ursinus_rangemap <- BIEN_ranges_load_species("Rubus_ursinus")
 
 # sugarcane
-Saccharum_spontaneum_rangemap <- BIEN_ranges_load_species("Saccharum_spontaneum")
+Saccharum_spontaneum_rangemap <- BIEN_ranges_load_species("Saccharum_officinarum")
 
 # redwood 
 Sequoia_sempervirens_rangemap <- BIEN_ranges_load_species("Sequoia_sempervirens")
@@ -511,6 +511,7 @@ map('world', fill=T, col="grey", bg="light blue", xlim=c(-180,-20), ylim=c(-60, 
 plot(Saccharum_spontaneum_rangemap, col="green", add=T)
 points(cbind(Saccharum_spontaneum$longitude, Saccharum_spontaneum$latitude), col="blue", pch=20, cex=1)
 # NOTE: for sugarcane the range map doesnt come up/appears on the map. In my data (listed in "Enviroment" on the right) I see a listing for "Saccharum_spontaneum_rangemap" - so I know it exists/has been created (also it runs without error). It just seems that the range map may not exist in the dataset/package or that it wont load. Since the "BIEN_range_get_species" function worked for the first two species, I would think that the error is not in that part of the interface.
+# UPDATED NOTE: got the rangemap to load for Saccharum officinarum (the defined variable is labled for spontaneum, but data comes from officinarum)
 
 # ----------------
 # DATA COMPARISON
