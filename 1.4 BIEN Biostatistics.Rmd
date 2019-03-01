@@ -444,7 +444,7 @@ Below there is another package being installed into the library and then loaded 
 https://www.statmethods.net/stats/descriptives.html
 
 ```{r}
-install.packages("doBy")
+#install.packages("doBy")
 library(doBy)
 summaryBy(DBH~scrubbed_species_binomial, data=Breadfruit_DBH_small, FUN=c(mean, sd))
 summaryBy(WPH~scrubbed_species_binomial, data=Breadfruit_WPH_small, FUN=c(mean, sd))
@@ -650,3 +650,9 @@ tail(NorthSlopeAla_list)
 Before our next digital lab on Feb 22, choose one of the exercises above and complete it. 
 
 Also use this last coding exercise to obtain species lists for three counties in a state in the USA outside of New York. For example, you could start with the county where you attended high school. Or, you could use a county where you have vacationed in the past, or where you would like to visit. Also download data for two adjacent counties. 
+
+
+
+Great work, Emily! I can tell that you understand how R works and how to get data from the online databases. The code is perfect up until line 374, where it throws an error because you're trying to make a new variable "Artocarpus2". I think this error occurs because you haven't created a Mcoronaria_DBH_small variable before that. Code below this line that uses Artocarpus2 is similary broken since Artocarpus2 can't be created.
+
+But no worries! Everything else worked great and I can tell you know what you're doing. I hope you found this assignment fun and useful!
